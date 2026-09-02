@@ -757,18 +757,46 @@ async function copyCurrent(){
   if(state.fmt==='md'){ copyText(buildMarkdown(p), '已复制 AI markdown · 记得填写目标网址与位置'); return; }
 }
 
-async function ensureFigit(){
-  if(window.__figitConvert) return true;
-  // file:// 直开也放行：figit 转换 + ClipboardItem 直写剪贴板不依赖服务器（回退 /save 仅 http 模式可用）
-  if(!/^https?:|^file:/.test(location.protocol)) return false;
+/* figit.js 加载：Cache Storage 持久缓存（GH Pages 缓存仅 600s + 国际 CDN 慢 ~60s，
+   首访下载后跨会话复用；blob 加载）；load 后自动后台预取，点复制时通常已就绪 */
+const FIGIT_CACHE = 'suekit-figit-v1';
+let _figitLoading = null; // 幂等：并发/重复调用共享同一加载
+function loadFigitScript(src){
   return new Promise(res=>{
     const s = document.createElement('script');
-    s.src = 'figit.js';
+    s.src = src;
     s.onload = ()=>res(true);
     s.onerror = ()=>res(false);
     document.head.appendChild(s);
   });
 }
+async function loadFigitWithCache(){
+  // file:// 无 Cache Storage（且本地 figit 秒载）→ 直载
+  if(location.protocol === 'file:') return loadFigitScript('figit.js');
+  try{
+    const cache = await caches.open(FIGIT_CACHE);
+    const hit = await cache.match('figit.js');
+    if(hit){ // 缓存命中 → blob 秒载（跨会话）
+      const ok = await loadFigitScript(URL.createObjectURL(await hit.blob()));
+      if(ok) return true;
+    }
+    const r = await fetch('figit.js');
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    try{ await cache.put('figit.js', r.clone()); }catch(e){}
+    return await loadFigitScript(URL.createObjectURL(await r.blob()));
+  }catch(e){
+    // 任一环节失败 → 退回常规 script 直载（走浏览器 HTTP 缓存）
+    return loadFigitScript('figit.js');
+  }
+}
+async function ensureFigit(){
+  if(window.__figitConvert) return true;
+  if(!/^https?:|^file:/.test(location.protocol)) return false;
+  if(!_figitLoading) _figitLoading = loadFigitWithCache();
+  return _figitLoading;
+}
+// 页面就绪后后台预取转换器：浏览组件期间即完成下载，点复制不再等
+window.addEventListener('load', ()=>setTimeout(()=>{ ensureFigit().catch(()=>{}); }, 300));
 
 /* ================= Figma 复制（1920 等比放大） ================= */
 function buildScaledHost(el){
@@ -805,6 +833,7 @@ function buildScaledHost(el){
 }
 
 async function copyFigma(){
+  if(!window.__figitConvert) showToast('首次使用正在后台加载组件转换器，请稍候片刻…');
   if(!await ensureFigit()){
     showToast('组件转换器加载失败，请刷新页面重试');
     return;
