@@ -166,6 +166,18 @@ body{display:flex;align-items:flex-start;justify-content:center}
 .hd-c2{position:absolute;left:538px;top:403px;width:447px;height:50px;background:linear-gradient(to bottom,rgba(197,180,153,0),rgba(197,180,153,.2))}
 .hd-c3{position:absolute;left:856.5px;top:150.7px;width:263px;height:479.5px;background:var(--muted);border-radius:20px;transform:rotate(-15deg)}
 
+/* ============ demo 页面：按钮 ============ */
+.btn-show{position:relative;height:176px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.dbtn{height:40px;padding:0 20px;border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:filter .15s,background-color .15s}
+.dbtn:hover{filter:brightness(.95)}
+.dbtn-solid{background:var(--accent2);color:#fff}
+.dbtn-line{background:var(--card);color:var(--accent2);box-shadow:inset 0 0 0 1px var(--line)}
+.dbtn-text{background:transparent;color:var(--accent2);padding:0 12px}
+.dbtn-text:hover{filter:none;background:rgba(201,105,76,.1)}
+.dbtn-pill{border-radius:999px;background:var(--accent2);color:#fff;padding:0 26px}
+.dbtn-icon{width:40px;padding:0;border-radius:12px;background:var(--accent2)}
+.dbtn-icon svg{width:18px;height:18px}
+
 /* ============ demo 页面：信任条 ============ */
 .trust-bar{position:relative;height:82px;background:var(--card2);overflow:hidden;display:flex;align-items:center}
 .mt-track{display:flex;align-items:center;gap:105px;width:max-content;padding-left:124px;animation:mt 22s linear infinite}
@@ -404,6 +416,37 @@ const COMPS = {
         prompt:'页脚：品牌+标语居左，产品/资源/社区三列链接，底部版权行。', html:
         `<div class="demo-footer"><div class="df-brand"><b>SueKit</b><p>让组件，真正进入产品现场。</p></div><div class="df-cols"><div class="df-col"><b>产品</b><span>组件库</span><span>主题</span><span>图标</span></div><div class="df-col"><b>资源</b><span>文档</span><span>教程</span><span>更新日志</span></div><div class="df-col"><b>社区</b><span>GitHub</span><span>论坛</span><span>贡献指南</span></div></div><div class="df-copy">© 2026 SueKit · 保留所有权利</div></div>`}
     ]
+  },
+  btn:{
+    name:'按钮', en:'Button',
+    styleTitle:'按钮样式',
+    variants:[
+      {id:'solid', name:'实底按钮',
+        role:'实心主按钮：品牌红底白字，页面最高优先级的行动入口。',
+        fits:['产品官网','落地页','后台系统'],
+        prompt:'按钮：实心主按钮，品牌红(#C9694C)底白字，12px 圆角，高 40px，14px semibold，hover 微加深。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-solid">开始使用</div></div>`},
+      {id:'line', name:'线框按钮',
+        role:'线框次按钮：白底细灰描边，与主按钮配对的次级操作。',
+        fits:['产品官网','后台系统','工具型产品'],
+        prompt:'按钮：线框次按钮，白底 1px 灰描边 12px 圆角，品牌红文字，高 40px，与主按钮配对使用。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-line">了解更多</div></div>`},
+      {id:'text', name:'文字按钮',
+        role:'文字按钮：无底无框纯文字，轻量操作与行内引导，hover 浅红底。',
+        fits:['后台系统','文档站','工具型产品'],
+        prompt:'按钮：文字按钮，透明底品牌红文字，hover 浅红圆角底，高 40px，轻量级操作入口。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-text">查看文档</div></div>`},
+      {id:'pill', name:'胶囊按钮',
+        role:'胶囊按钮：全圆角红底，下载/注册等强调型动作，视觉更亲和。',
+        fits:['活动页','移动端风格站','落地页'],
+        prompt:'按钮：胶囊按钮，全圆角(999px)品牌红底白字，高 40px 横向 padding 26px，强调型 CTA。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-pill">立即下载</div></div>`},
+      {id:'icon', name:'图标按钮',
+        role:'图标按钮：方形纯图标钮，搜索/关闭/更多等工具型操作，省空间。',
+        fits:['后台系统','工具型产品','文档站'],
+        prompt:'按钮：40×40 方形图标按钮，品牌红底白色放大镜 SVG 图标 12px 圆角，hover 微加深。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-icon" aria-label="搜索"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12.7 12.7L17 17" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div></div>`}
+    ]
   }
 };
 
@@ -414,6 +457,7 @@ const PAGES = {
     html:`%%nav%%
     <div class="scene-inner">
       %%hero%%
+      %%btn%%
       %%trust%%
       %%feat%%
       %%testi%%
