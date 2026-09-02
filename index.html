@@ -816,10 +816,11 @@ async function copyFigma(){
     // 回退：POST /save → Swift 写 NSPasteboard（public.html，仅 http 模式可用）
     if(!written){
       try{
-        await fetch('/save', {method:'POST', body: res.html});
+        const r = await fetch('/save', {method:'POST', body: res.html});
+        if(!r.ok) throw new Error('HTTP ' + r.status);
         showToast('已复制 Figma 格式 → 去 Figma 里 ⌘V 粘贴');
       }catch(e){
-        console.warn('回退 /save 失败（file:// 模式无服务器）', e);
+        console.warn('回退 /save 失败', e);
         showToast('剪贴板直写失败：请用 Chrome/Edge 浏览器，或刷新后重试');
       }
     }
