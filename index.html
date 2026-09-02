@@ -116,9 +116,7 @@ body{display:flex;align-items:flex-start;justify-content:center}
 .ctrl-tag{position:absolute;top:-26px;left:-3px;background:var(--accent2);color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px;z-index:12;white-space:nowrap}
 
 /* ============ demo 页面：导航（控件） ============ */
-.snav{display:flex;align-items:center;height:60px;padding:0 60px;background:var(--card);position:relative;z-index:0}
-/* drop 复制专用：导航行白底用真实元素承载（figit 不渲染 ::before），copy-expand 时 nav 透明后仍见行白 */
-.snav.drop .drop-row{position:absolute;left:0;right:0;top:0;height:60px;background:var(--card);z-index:-1}
+.snav{display:flex;align-items:center;height:60px;padding:0 60px;background:var(--card);position:relative}
 .snav.shrink{background:transparent;transition:background .3s}
 .snav.shrink.scrolled{background:var(--card);box-shadow:0 4px 20px -12px rgba(43,37,32,.14)}
 .s-logo{width:30px;height:30px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:var(--card);font-size:14px;font-weight:700;flex:none}
@@ -304,7 +302,7 @@ const COMPS = {
         role:'点击展开紧凑下拉面板，收纳次要入口，顶部保持简洁，路径清晰不占空间。',
         fits:['后台系统','文档站','工具型产品'],
         prompt:'下拉菜单导航：hover 展开单项下拉列表，支持分组与更多入口。', html:
-        `<nav class="snav drop"><div class="drop-row"></div><div class="s-logo">S</div><div class="s-brand">SueKit</div><div class="s-links"><span class="s-item active">首页</span><span class="s-item dd-trigger open" style="background:var(--card2);border-radius:8px;padding:6px 20px">组件<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 4.6h8l-3.97 4.8z" fill="currentColor"/></svg><div class="dd-panel"><b>组件</b><span>导航</span><span>表单</span><span>数据</span></div></span><span class="s-item">文档</span><span class="s-item">更新</span></div><div class="s-search"><i class="s-ico"></i><span>在此输入你想搜索的内容</span></div></nav>`},
+        `<nav class="snav drop"><div class="s-logo">S</div><div class="s-brand">SueKit</div><div class="s-links"><span class="s-item active">首页</span><span class="s-item dd-trigger open" style="background:var(--card2);border-radius:8px;padding:6px 20px">组件<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 4.6h8l-3.97 4.8z" fill="currentColor"/></svg><div class="dd-panel"><b>组件</b><span>导航</span><span>表单</span><span>数据</span></div></span><span class="s-item">文档</span><span class="s-item">更新</span></div><div class="s-search"><i class="s-ico"></i><span>在此输入你想搜索的内容</span></div></nav>`},
       {id:'float', name:'悬浮岛吸顶',
         role:'圆角胶囊岛悬浮吸顶，视觉轻盈不压迫，滚动时导航始终可达。',
         fits:['创意型官网','落地页','活动页'],
@@ -792,12 +790,10 @@ function buildScaledHost(el){
     .replace(/([\d.]+)px/g, (m,n)=> Math.round(parseFloat(n)*SCALE)+'px')
     // 整除修正：功能卡组内容宽 1791，三卡 581×3 + gap 24×2 精确整除
     + '\n.feat-cards{width:1791px}'
-    // nav 复制：面板(padding 区)纳入 frame 高度，避免 absolute 溢出子元素被 Figma clip 裁掉
-    // (值已按 ×1.6134 放大：60→97 行 + 160→258 面板 = 355 总高；仅限带展开面板的 mega/drop)
-    // drop 背景只保留导航行(97px 白底 ::before)与下拉框白底，padding 面板区透明，不整块铺白
+    // drop 复制背景：nav 自身背景用 linear-gradient——白底只铺行区(60→97px)，padding 面板区透明
+    // (不用额外子层/伪元素：figit 会把子层排到 children 末尾=视觉上层盖住内容，伪元素不渲染)
     + '\n.snav.mega.copy-expand{height:355px;padding-bottom:258px}'
-    + '\n.snav.drop.copy-expand{height:355px;padding-bottom:258px;background:transparent}'
-    + '\n.snav.drop.copy-expand::before{content:"";position:absolute;left:0;right:0;top:0;height:97px;background:var(--card)}';
+    + '\n.snav.drop.copy-expand{height:355px;padding-bottom:258px;background:linear-gradient(var(--card) 0 97px,transparent 97px)}';
   shadow.innerHTML = `<style>${scaledCss}
 :host *{font-family:"Noto Sans SC" !important}</style>${el.outerHTML}`;
   // 返回 shadow 内第一个非 style 元素（组件本体）
