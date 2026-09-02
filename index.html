@@ -155,7 +155,7 @@ body{display:flex;align-items:flex-start;justify-content:center}
 .hero .copy{position:absolute;left:100px;top:128px;z-index:2}
 .hero-title{font-size:48px;font-weight:700;line-height:1.5;color:var(--ink)}
 .hero-desc{margin-top:19px;font-size:14px;line-height:1.5;color:var(--ink)}
-.hero-btns{display:flex;gap:15px;margin-top:50px}
+.hero-btns{position:relative;display:flex;gap:15px;margin-top:50px}
 .hero-btn{height:40px;padding:0 20px;border-radius:12px;font-size:14px;line-height:1.5;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--accent);color:#fff}
 .hero-btn.sec{background:var(--card);color:var(--accent);height:42px;padding:0 21px;box-shadow:inset 0 0 0 1px var(--line)}
 .hero.center .copy{left:50%;transform:translateX(-50%);text-align:center}
@@ -167,7 +167,6 @@ body{display:flex;align-items:flex-start;justify-content:center}
 .hd-c3{position:absolute;left:856.5px;top:150.7px;width:263px;height:479.5px;background:var(--muted);border-radius:20px;transform:rotate(-15deg)}
 
 /* ============ demo 页面：按钮 ============ */
-.btn-show{position:relative;height:176px;background:var(--bg);display:flex;align-items:center;justify-content:center;gap:15px}
 .dbtn{height:40px;padding:0 20px;border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:filter .15s,background-color .15s}
 .dbtn:hover{filter:brightness(.95)}
 .dbtn-solid{background:var(--accent2);color:#fff}
@@ -177,6 +176,8 @@ body{display:flex;align-items:flex-start;justify-content:center}
 .dbtn-pill{border-radius:999px;background:var(--accent2);color:#fff;padding:0 26px}
 .dbtn-icon{width:40px;padding:0;border-radius:12px;background:var(--accent2)}
 .dbtn-icon svg{width:18px;height:18px}
+/* 按钮组件选中框：hero 区按钮组独立框选（hero 本体不被框） */
+.hero-btns.is-selected::after{content:'';position:absolute;inset:-10px;background:rgba(201,105,76,.08);border:2px solid var(--accent2);border-radius:16px;pointer-events:none;z-index:9999}
 
 /* ============ demo 页面：信任条 ============ */
 .trust-bar{position:relative;height:82px;background:var(--card2);overflow:hidden;display:flex;align-items:center}
@@ -333,12 +334,12 @@ const COMPS = {
         role:'左侧主标题+描述+行动按钮，右侧装饰卡片，信息层级清晰，视觉丰富有张力。',
         fits:['产品官网','SaaS 官网','品牌站点'],
         prompt:'左右布局 Hero：左文右卡，48px 主标题 + 描述 + 双按钮，右侧倾斜装饰卡与米色卡片。', html:
-        `<div class="hero split"><div class="copy"><div class="hero-title">看见组件，<br>也看见它怎么工作</div><div class="hero-desc">点击任意组件，左侧同步解释设计意图与生成 Prompt。</div><div class="hero-btns"><span class="hero-btn">浏览组件</span><span class="hero-btn sec">查看 Prompt</span></div></div><div class="hero-deco"><div class="hd-c3"></div><div class="hd-c1"></div><div class="hd-c2"></div></div></div>`},
+        `<div class="hero split"><div class="copy"><div class="hero-title">看见组件，<br>也看见它怎么工作</div><div class="hero-desc">点击任意组件，左侧同步解释设计意图与生成 Prompt。</div>%%btnGroup%%</div><div class="hero-deco"><div class="hd-c3"></div><div class="hd-c1"></div><div class="hd-c2"></div></div></div>`},
       {id:'center', name:'居中布局',
         role:'内容整体居中，纯色背景无装饰，聚焦标题与行动按钮，简洁克制。',
         fits:['落地页','活动页','极简官网'],
         prompt:'居中布局 Hero：内容居中，纯色背景，48px 主标题 + 描述 + 双按钮。', html:
-        `<div class="hero center"><div class="copy"><div class="hero-title">看见组件，<br>也看见它怎么工作</div><div class="hero-desc">点击任意组件，左侧同步解释设计意图与生成 Prompt。</div><div class="hero-btns"><span class="hero-btn">浏览组件</span><span class="hero-btn sec">查看 Prompt</span></div></div><div class="hero-deco" style="display:none"></div></div>`}
+        `<div class="hero center"><div class="copy"><div class="hero-title">看见组件，<br>也看见它怎么工作</div><div class="hero-desc">点击任意组件，左侧同步解释设计意图与生成 Prompt。</div>%%btnGroup%%</div><div class="hero-deco" style="display:none"></div></div>`}
     ]
   },
   'feat':{
@@ -425,27 +426,27 @@ const COMPS = {
         role:'实心主按钮：品牌红底白字，页面最高优先级的行动入口。',
         fits:['产品官网','落地页','后台系统'],
         prompt:'按钮：一对并排实底主按钮（浏览组件/查看Prompt），品牌红(#C9694C)底白字，12px 圆角，高 40px，14px semibold，hover 微加深。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-solid">浏览组件</div><div class="dbtn dbtn-solid">查看Prompt</div></div>`},
+        `<div class="hero-btns"><div class="dbtn dbtn-solid">浏览组件</div><div class="dbtn dbtn-solid">查看 Prompt</div></div>`},
       {id:'line', name:'线框按钮',
         role:'线框次按钮：白底细灰描边，与主按钮配对的次级操作。',
         fits:['产品官网','后台系统','工具型产品'],
         prompt:'按钮：一对并排线框按钮（浏览组件/查看Prompt），白底 1px 灰描边 12px 圆角，品牌红文字，高 40px。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-line">浏览组件</div><div class="dbtn dbtn-line">查看Prompt</div></div>`},
+        `<div class="hero-btns"><div class="dbtn dbtn-line">浏览组件</div><div class="dbtn dbtn-line">查看 Prompt</div></div>`},
       {id:'text', name:'文字按钮',
         role:'文字按钮：无底无框纯文字，轻量操作与行内引导，hover 浅红底。',
         fits:['后台系统','文档站','工具型产品'],
         prompt:'按钮：一对并排文字按钮（浏览组件/查看Prompt），透明底品牌红文字，hover 浅红圆角底，高 40px。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-text">浏览组件</div><div class="dbtn dbtn-text">查看Prompt</div></div>`},
+        `<div class="hero-btns"><div class="dbtn dbtn-text">浏览组件</div><div class="dbtn dbtn-text">查看 Prompt</div></div>`},
       {id:'pill', name:'胶囊按钮',
         role:'胶囊按钮：全圆角红底，下载/注册等强调型动作，视觉更亲和。',
         fits:['活动页','移动端风格站','落地页'],
         prompt:'按钮：一对并排胶囊按钮（浏览组件/查看Prompt），全圆角(999px)品牌红底白字，高 40px 横向 padding 26px。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-pill">浏览组件</div><div class="dbtn dbtn-pill">查看Prompt</div></div>`},
+        `<div class="hero-btns"><div class="dbtn dbtn-pill">浏览组件</div><div class="dbtn dbtn-pill">查看 Prompt</div></div>`},
       {id:'icon', name:'图标按钮',
         role:'图标按钮：方形纯图标钮，搜索/浏览/打开等工具型操作，省空间。',
         fits:['后台系统','工具型产品','文档站'],
         prompt:'按钮：一对并排方形图标按钮（浏览=放大镜/查看Prompt=外部链接），品牌红底白色 SVG 描边图标，40×40，12px 圆角，hover 微加深。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-icon" aria-label="浏览组件"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12.7 12.7L17 17" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="dbtn dbtn-icon" aria-label="查看Prompt"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M13 3.5h3.5V7"/><path d="M11.5 8.5L16.5 3.5"/><path d="M12.5 11v3a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3"/></svg></div></div>`}
+        `<div class="hero-btns"><div class="dbtn dbtn-icon" aria-label="浏览组件"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12.7 12.7L17 17" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="dbtn dbtn-icon" aria-label="查看 Prompt"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M13 3.5h3.5V7"/><path d="M11.5 8.5L16.5 3.5"/><path d="M12.5 11v3a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3"/></svg></div></div>`}
     ]
   }
 };
@@ -457,7 +458,6 @@ const PAGES = {
     html:`%%nav%%
     <div class="scene-inner">
       %%hero%%
-      %%btn%%
       %%trust%%
       %%feat%%
       %%testi%%
@@ -496,7 +496,14 @@ function renderPage(){
     if(!html.includes('%%'+compId+'%%')) continue;
     const comp = COMPS[compId];
     const v = comp.variants.find(x=>x.id===currentVariant(compId));
-    html = html.replace('%%'+compId+'%%', `<div class="ctrl" data-comp="${compId}">${v.html}</div>`);
+    let vhtml = v.html;
+    // hero 区按钮组 = 按钮组件 demo 位：用户切过按钮样式或选中按钮时用所选样式，否则 hero 原生主次组
+    if(compId==='hero' && vhtml.includes('%%btnGroup%%')){
+      vhtml = vhtml.replace('%%btnGroup%%', (state.selected==='btn' || variantSel['btn'])
+        ? COMPS.btn.variants.find(x=>x.id===currentVariant('btn')).html
+        : '<div class="hero-btns"><span class="hero-btn">浏览组件</span><span class="hero-btn sec">查看 Prompt</span></div>');
+    }
+    html = html.replace('%%'+compId+'%%', `<div class="ctrl" data-comp="${compId}">${vhtml}</div>`);
   }
   const pageEl = $('demoPage');
   pageEl.innerHTML = html;
@@ -538,11 +545,16 @@ function renderPage(){
     if(state.mode==='pick'){
       el.classList.add('pickable');
       el.onclick = (e)=>{ e.stopPropagation(); selectComp(compId); };
+      // hero 区按钮组：hover 到按钮上点选 = 按钮组件（非按钮区域点选 = hero）
+      const hb = el.querySelector('.hero-btns');
+      if(hb) hb.onclick = (e)=>{ e.stopPropagation(); selectComp('btn'); };
     } else if(state.mode==='selected'){
       if(compId===state.selected){
         el.classList.add('is-selected');
         if(compId==='nav') el.classList.add('var-'+currentVariant('nav'));
       }
+      const hb2 = el.querySelector('.hero-btns');
+      if(hb2) hb2.classList.toggle('is-selected', state.selected==='btn');
     } else { el.classList.remove('pickable'); el.onclick=null; }
   });
 }
@@ -663,7 +675,9 @@ function scrollToCenter(compId){
 /* ================= 复制（参考 com-pick 插件输出格式） ================= */
 function collectCss(compId){
   // 只收集该组件 DOM 实际匹配的规则（com-pick 同款：CSS 与输出 DOM 对齐）
-  const host = document.querySelector(`.ctrl[data-comp="${compId}"]`);
+  const host = compId==='btn'
+    ? document.querySelector('.hero-btns')
+    : document.querySelector(`.ctrl[data-comp="${compId}"]`);
   if(!host) return '';
   const els = [host, ...host.querySelectorAll('*')];
   const classes = new Set();
@@ -701,7 +715,9 @@ function collectTokens(){
 function buildCopyPayload(){
   const comp = COMPS[state.selected];
   const v = comp.variants.find(x=>x.id===currentVariant(state.selected));
-  const host = document.querySelector(`.ctrl[data-comp="${state.selected}"]`);
+  const host = state.selected==='btn'
+    ? document.querySelector('.hero-btns')
+    : document.querySelector(`.ctrl[data-comp="${state.selected}"]`);
   // 用布局尺寸（offset*）而非 getBoundingClientRect——后者受 #frame 的 transform scale 影响
   return {
     purpose: '在自己的项目中重新实现相似 UI，不复制原网站业务逻辑',
@@ -882,10 +898,12 @@ async function copyFigma(){
     showToast('组件转换器加载失败，请刷新页面重试');
     return;
   }
-  const src = document.querySelector(`.ctrl[data-comp="${state.selected}"]`);
+  const src = state.selected==='btn'
+    ? document.querySelector('.hero-btns')   // 按钮组件 demo 寄居 hero 区按钮组，复制源=按钮组本体
+    : document.querySelector(`.ctrl[data-comp="${state.selected}"]`);
   // nav 系列：复制时挂 copy-expand（面板纳入 frame 高度防 Figma clip 裁掉）
   // + 下拉面板强制展开（保证展开内容随复制带出）
-  const hostEl = src.firstElementChild || src;
+  const hostEl = (state.selected==='btn') ? src : (src.firstElementChild || src);
   const isNav = hostEl.classList && hostEl.classList.contains('snav');
   const trigEl = isNav ? hostEl.querySelector('.dd-trigger') : null;
   const trigWasOpen = trigEl ? trigEl.classList.contains('open') : true;
