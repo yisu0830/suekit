@@ -55638,6 +55638,16 @@
       };
       const document2 = "frames" in input ? await buildCanvas(input, walkContext, blobManager, createGuid) : await buildSingle(input, walkContext, blobManager);
       document2.nodeChanges.push(...nodeChanges);
+      // 根元素被强制 auto-layout 时，figit 会给外层 frame 一个默认白底壳——
+      // 真实样式（背景/圆角/阴影）都在内部的 Container 上。必须在 encodeFigmaData 之前
+      // 清掉外层纯白底，否则白壳会进序列化产物，Figma 里出现整块白色矩形。
+      try{
+        const canvasGuid = document2.nodeChanges.find((c) => c.type === "CANVAS")?.guid;
+        const rootFrame = document2.nodeChanges.find((c) => c.type === "FRAME" && c.parentIndex?.guid?.localID === canvasGuid?.localID && c.parentIndex?.guid?.sessionID === canvasGuid?.sessionID);
+        if (rootFrame && rootFrame.fillPaints?.length === 1 && rootFrame.fillPaints[0].color?.r === 1 && rootFrame.fillPaints[0].color?.g === 1 && rootFrame.fillPaints[0].color?.b === 1 && rootFrame.fillPaints[0].color?.a === 1 && rootFrame.fillPaints[0].opacity === 1) {
+          rootFrame.fillPaints = [];
+        }
+      } catch { /* 结构异常则跳过 */ }
       const encoded = encodeFigmaData(document2);
       return {
         document: document2,
