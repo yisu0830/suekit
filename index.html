@@ -549,7 +549,8 @@ function renderVariantBar(){
   $('vbTitle').textContent = comp.styleTitle;
   $('vbChips').innerHTML = comp.variants.map(v=>
     `<button class="vb-chip ${v.id===currentVariant(state.selected)?'active':''}" data-vid="${v.id}">${v.name}</button>`).join('');
-  document.querySelectorAll('.vb-chip').forEach(c=>c.onclick=()=>{
+  document.querySelectorAll('.vb-chip').forEach(c=>c.onclick=(e)=>{
+    e.stopPropagation(); // 变体切换不触发 bindDropdown 的全局收起（防止误删刚渲染的 dd-trigger open）
     variantSel[state.selected] = c.dataset.vid;
     renderPage(); renderDetail(); renderVariantBar(); bindDropdown();
     scrollToCenter(state.selected); // 切变体后保持控件居中
@@ -781,7 +782,10 @@ function buildScaledHost(el){
     .replace(/:root\s*\{/, ':host{')
     .replace(/([\d.]+)px/g, (m,n)=> Math.round(parseFloat(n)*SCALE)+'px')
     // 整除修正：功能卡组内容宽 1791，三卡 581×3 + gap 24×2 精确整除
-    + '\n.feat-cards{width:1791px}';
+    + '\n.feat-cards{width:1791px}'
+    // nav 复制：面板(padding 区)纳入 frame 高度，避免 absolute 溢出子元素被 Figma clip 裁掉
+    // (值已按 ×1.6134 放大：60→97 行 + 160→258 面板 = 355 总高；padding-bottom 258 容面板)
+    + '\n.snav.copy-expand{height:355px;padding-bottom:258px}';
   shadow.innerHTML = `<style>${scaledCss}
 :host *{font-family:"Noto Sans SC" !important}</style>${el.outerHTML}`;
   // 返回 shadow 内第一个非 style 元素（组件本体）
@@ -794,9 +798,17 @@ async function copyFigma(){
     return;
   }
   const src = document.querySelector(`.ctrl[data-comp="${state.selected}"]`);
+  // nav 系列：复制时挂 copy-expand（面板纳入 frame 高度防 Figma clip 裁掉）
+  // + 下拉面板强制展开（保证展开内容随复制带出）
+  const hostEl = src.firstElementChild || src;
+  const isNav = hostEl.classList && hostEl.classList.contains('snav');
+  const trigEl = isNav ? hostEl.querySelector('.dd-trigger') : null;
+  const trigWasOpen = trigEl ? trigEl.classList.contains('open') : true;
+  if(isNav) hostEl.classList.add('copy-expand');
+  if(trigEl && !trigWasOpen) trigEl.classList.add('open');
   // 克隆组件到 frame 外的 1920 离屏 Shadow DOM（全 px 等比放大取整）——
   // 避开 #frame transform scale 对 figit 测量的污染，输出即 1920 画布设计尺寸
-  const target = buildScaledHost(src.firstElementChild || src);
+  const target = buildScaledHost(hostEl);
   // 跨平台默认字体（Noto Sans SC）@font-face 懒加载：必须等它渲染完成，figit 测量才与 Figma 渲染一致
   try{ await document.fonts.load('16px "Noto Sans SC"'); }catch(e){}
   try{
@@ -828,6 +840,11 @@ async function copyFigma(){
   }catch(e){
     console.error(e);
     showToast('转换失败：' + (e.message||e));
+  }
+  // 还原复制用临时状态（copy-expand / 强制 open），不影响 demo 展示
+  if(isNav){
+    hostEl.classList.remove('copy-expand');
+    if(trigEl && !trigWasOpen) trigEl.classList.remove('open');
   }
 }
 
