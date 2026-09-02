@@ -140,7 +140,7 @@ body{display:flex;align-items:flex-start;justify-content:center}
 .mega-panel .m-col span{font-size:12px;line-height:1.5;color:var(--ink3);cursor:pointer}
 /* 下拉导航 */
 .snav.drop{height:60px;background:var(--card)}
-.dd-panel{position:absolute;left:-3px;top:45px;width:88px;background:transparent;padding:18px 16px;flex-direction:column;gap:14px;display:none;z-index:20}
+.dd-panel{position:absolute;left:-3px;top:45px;width:88px;background:var(--card);padding:18px 16px;flex-direction:column;gap:14px;display:none;z-index:20}
 .snav.drop .dd-trigger:hover .dd-panel,.snav.drop .dd-trigger.open .dd-panel{display:flex}
 .dd-trigger .arr{transition:transform .15s}
 .snav.drop .dd-trigger:hover .arr,.snav.drop .dd-trigger.open .arr{transform:rotate(180deg)}
@@ -791,8 +791,11 @@ function buildScaledHost(el){
     // 整除修正：功能卡组内容宽 1791，三卡 581×3 + gap 24×2 精确整除
     + '\n.feat-cards{width:1791px}'
     // nav 复制：面板(padding 区)纳入 frame 高度，避免 absolute 溢出子元素被 Figma clip 裁掉
-    // (值已按 ×1.6134 放大：60→97 行 + 160→258 面板 = 355 总高；padding-bottom 258 容面板；仅限带展开面板的 mega/drop)
-    + '\n.snav.mega.copy-expand,.snav.drop.copy-expand{height:355px;padding-bottom:258px}';
+    // (值已按 ×1.6134 放大：60→97 行 + 160→258 面板 = 355 总高；仅限带展开面板的 mega/drop)
+    // drop 背景只保留导航行(97px 白底 ::before)与下拉框白底，padding 面板区透明，不整块铺白
+    + '\n.snav.mega.copy-expand{height:355px;padding-bottom:258px}'
+    + '\n.snav.drop.copy-expand{height:355px;padding-bottom:258px;background:transparent}'
+    + '\n.snav.drop.copy-expand::before{content:"";position:absolute;left:0;right:0;top:0;height:97px;background:var(--card)}';
   shadow.innerHTML = `<style>${scaledCss}
 :host *{font-family:"Noto Sans SC" !important}</style>${el.outerHTML}`;
   // 返回 shadow 内第一个非 style 元素（组件本体）
