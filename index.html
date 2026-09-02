@@ -107,9 +107,9 @@ body{display:flex;align-items:flex-start;justify-content:center}
 .ctrl.pickable{cursor:pointer}
 .ctrl.pickable::after{content:'';position:absolute;inset:0;background:rgba(201,105,76,.2);border:2px dashed #c9694c;box-shadow:0 10px 20px rgba(197,181,153,.2);pointer-events:none;opacity:0;z-index:9999;transition:opacity .12s}
 .ctrl.pickable:hover::after{opacity:1}
-/* pick 模式 hover 到 hero 按钮组（含两钮中间）：显示按钮组虚线框，隐藏 hero 整块虚线 */
+/* pick 模式 hover 到 hero 按钮组（含两钮中间）：显示按钮组虚线框（贴合按钮组尺寸），隐藏 hero 整块虚线 */
 .ctrl[data-comp="hero"].pickable.hb-zone::after{opacity:0}
-.ctrl.pickable .hero-btns::after{content:'';position:absolute;inset:-10px;background:rgba(201,105,76,.2);border:2px dashed #c9694c;box-shadow:0 10px 20px rgba(197,181,153,.2);pointer-events:none;opacity:0;transition:opacity .12s;z-index:9999}
+.ctrl.pickable .hero-btns::after{content:'';position:absolute;inset:0;background:rgba(201,105,76,.2);border:2px dashed #c9694c;box-shadow:0 10px 20px rgba(197,181,153,.2);pointer-events:none;opacity:0;transition:opacity .12s;z-index:9999}
 .ctrl.pickable .hero-btns:hover::after{opacity:1}
 .ctrl.dimmed{opacity:.32;filter:grayscale(.4)}
 /* 选中态：实线选中框（切变体/改样式后 renderPage 重新标记，框保留；独立完整样式，不依赖 pickable） */
