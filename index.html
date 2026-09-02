@@ -333,15 +333,15 @@ const COMPS = {
     name:'功能卡片', en:'Feature Cards',
     styleTitle:'功能卡片样式',
     variants:[
-      {id:'plain', name:'标准',
+      {id:'plain', name:'文本卡片',
         role:'三张等宽功能卡片，标题+描述简洁呈现核心能力，布局规整、信息密度适中。',
         fits:['产品官网','SaaS 官网','企业站'],
-        prompt:'标准功能卡片：360×144 等宽三卡，24px 标题 + 描述，米色圆角卡片。', html:
+        prompt:'文本功能卡片：360×144 等宽三卡，24px 标题 + 描述，米色圆角卡片。', html:
         `<div class="feat-cards plain"><div class="feat-card"><div class="fc-title">组件库</div><div class="fc-desc">300+ 精选组件按业务场景分类，从导航到表单全覆盖，选中即看代码。</div></div><div class="feat-card"><div class="fc-title">设计模板</div><div class="fc-desc">每个组件都配有 Figma 设计稿，字号、间距、圆角逐项对照，还原不靠猜。</div></div><div class="feat-card"><div class="fc-title">AI 生成</div><div class="fc-desc">选中组件自动生成完整代码与重建任务书，一键复制到项目即可落地。</div></div></div>`},
-      {id:'icon', name:'图标标题',
+      {id:'icon', name:'图标卡片',
         role:'圆形图标+标题横排，视觉锚点更突出，用户可快速扫读并定位核心功能。',
         fits:['产品官网','开发者工具','组件库'],
-        prompt:'图标标题功能卡片：30px 圆形图标 + 24px 标题横排，360×144 等宽三卡。', html:
+        prompt:'图标功能卡片：30px 圆形图标 + 24px 标题横排，360×144 等宽三卡。', html:
         `<div class="feat-cards icon"><div class="feat-card"><div class="fc-head"><span class="fc-dot"></span><div class="fc-title">组件库</div></div><div class="fc-desc">300+ 精选组件按业务场景分类，从导航到表单全覆盖，选中即看代码。</div></div><div class="feat-card"><div class="fc-head"><span class="fc-dot"></span><div class="fc-title">设计模板</div></div><div class="fc-desc">每个组件都配有 Figma 设计稿，字号、间距、圆角逐项对照，还原不靠猜。</div></div><div class="feat-card"><div class="fc-head"><span class="fc-dot"></span><div class="fc-title">AI 生成</div></div><div class="fc-desc">选中组件自动生成完整代码与重建任务书，一键复制到项目即可落地。</div></div></div>`},
       {id:'illus', name:'插画卡片',
         role:'卡片内嵌插画占位图，内容更丰满，适合需要强视觉叙事的营销型官网。',
