@@ -132,15 +132,15 @@ body{display:flex;align-items:flex-start;justify-content:center}
 .s-search .s-ico::before{content:'';position:absolute;left:1px;top:1px;width:9px;height:9px;border:2px solid var(--ink2);border-radius:50%}
 .s-search .s-ico::after{content:'';position:absolute;right:0;bottom:1px;width:6px;height:2px;background:var(--ink2);transform:rotate(45deg)}
 .s-search span{font-size:13px;line-height:1.5;color:var(--ink3)}
-/* 悬浮岛吸顶 */
+/* 悬浮岛导航 */
 .snav.float{position:absolute;left:15px;top:15px;width:1160px;border-radius:100px;box-shadow:0 12px 30px -14px rgba(43,37,32,.22);z-index:15}
-/* 巨型导航 */
+/* 巨型菜单 */
 .snav.mega{height:60px;background:var(--card)}
 .mega-panel{position:absolute;left:0;right:0;top:60px;height:160px;background:var(--card);display:flex;align-items:center;gap:0;padding:0 60px}
 .mega-panel .m-col{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px}
 .mega-panel .m-col b{font-size:12px;font-weight:600;line-height:1.5;color:var(--ink)}
 .mega-panel .m-col span{font-size:12px;line-height:1.5;color:var(--ink3);cursor:pointer}
-/* 下拉导航 */
+/* 下拉菜单 */
 .snav.drop{height:60px;background:var(--card)}
 .dd-panel{position:absolute;left:-3px;top:45px;width:88px;background:var(--card);padding:18px 16px;flex-direction:column;gap:14px;display:none;z-index:20}
 .snav.drop .dd-trigger:hover .dd-panel,.snav.drop .dd-trigger.open .dd-panel{display:flex}
@@ -282,7 +282,7 @@ body{display:flex;align-items:flex-start;justify-content:center}
 /* ================= 组件数据（单控件：导航菜单 4 变体） ================= */
 const COMPS = {
   'nav':{
-    name:'导航', en:'Navigation / Menu',
+    name:'导航', en:'Navbar / Navigation Bar',
     styleTitle:'其他导航栏样式',
     variants:[
       {id:'default', name:'默认导航栏',
@@ -290,31 +290,31 @@ const COMPS = {
         fits:['产品官网','后台工作台','文档站'],
         prompt:'默认导航栏：白底常规导航，左侧 Logo+品牌名，中部首页/组件/文档/更新入口，右侧搜索框，全局统一入口。', html:
         `<nav class="snav def"><div class="s-logo">S</div><div class="s-brand">SueKit</div><div class="s-links"><span class="s-item active">首页</span><span class="s-item">组件<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 4.6h8l-3.97 4.8z" fill="currentColor"/></svg></span><span class="s-item">文档</span><span class="s-item">更新</span></div><div class="s-search"><i class="s-ico"></i><span>在此输入你想搜索的内容</span></div></nav>`},
-      {id:'shrink', name:'滚动收缩变色',
+      {id:'shrink', name:'滚动吸顶变色',
         role:'页面下滑时导航背景从透明渐变为白色并吸顶，弱化顶部干扰、让内容沉浸，同时保持入口随时可达。',
         fits:['长内容页面','产品官网','内容社区'],
-        prompt:'滚动收缩变色：页面下滑时导航背景从透明渐变为白色，收缩高度，保持入口可用。', html:
+        prompt:'滚动吸顶变色：页面下滑时导航背景从透明渐变为白色，保持入口可用。', html:
         `<nav class="snav shrink"><div class="s-logo">S</div><div class="s-brand">SueKit</div><div class="s-links"><span class="s-item active">首页</span><span class="s-item">组件<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 4.6h8l-3.97 4.8z" fill="currentColor"/></svg></span><span class="s-item">文档</span><span class="s-item">更新</span></div><div class="s-search"><i class="s-ico"></i><span>在此输入你想搜索的内容</span></div></nav>`},
-      {id:'float', name:'悬浮岛吸顶',
+      {id:'float', name:'悬浮岛导航',
         role:'圆角胶囊岛悬浮吸顶，视觉轻盈不压迫，滚动时导航始终可达。',
         fits:['创意型官网','落地页','活动页'],
-        prompt:'悬浮岛吸顶：胶囊状导航岛悬浮于页面顶部，吸顶常驻，现代轻盈。', html:
+        prompt:'悬浮岛导航：胶囊状导航岛悬浮于页面顶部，吸顶常驻，现代轻盈。', html:
         `<nav class="snav float"><div class="s-logo">S</div><div class="s-brand">SueKit</div><div class="s-links"><span class="s-item active">首页</span><span class="s-item">组件<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 4.6h8l-3.97 4.8z" fill="currentColor"/></svg></span><span class="s-item">文档</span><span class="s-item">更新</span></div><div class="s-search"><i class="s-ico"></i><span>在此输入你想搜索的内容</span></div></nav>`},
       {sep:true},
-      {id:'mega', name:'巨型导航',
+      {id:'mega', name:'巨型菜单',
         role:'Hover 展开分类网格面板，按主题分组承载大量入口，让用户一步直达深层页面。',
         fits:['大型平台','电商','SaaS 官网'],
-        prompt:'巨型导航菜单：hover 展开分类网格面板，按主题分组跳转，信息承载量大。', html:
+        prompt:'巨型菜单：hover 展开分类网格面板，按主题分组跳转，信息承载量大。', html:
         `<nav class="snav mega"><div class="s-logo">S</div><div class="s-brand">SueKit</div><div class="s-links"><span class="s-item active">首页</span><span class="s-item" style="background:var(--card2);border-radius:8px;padding:6px 16px">组件<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 4.6h8l-3.97 4.8z" fill="currentColor"/></svg></span><span class="s-item">文档</span><span class="s-item">更新</span></div><div class="s-search"><i class="s-ico"></i><span>在此输入你想搜索的内容</span></div><div class="mega-panel"><div class="m-col"><b>导航</b><span>侧边导航</span><span>下拉菜单</span><span>面包屑</span></div><div class="m-col"><b>表单</b><span>输入框</span><span>选择器</span><span>按钮</span></div><div class="m-col"><b>数据</b><span>表格</span><span>卡片</span><span>统计</span></div><div class="m-col"><b>反馈</b><span>消息通知</span><span>弹窗</span><span>提示框</span></div><div class="m-col"><b>布局</b><span>栅格</span><span>间距</span><span>分割线</span></div><div class="m-col"><b>设计</b><span>色彩</span><span>字体</span><span>图标</span></div></div></nav>`},
-      {id:'dropdown', name:'下拉导航',
+      {id:'dropdown', name:'下拉菜单',
         role:'点击展开紧凑下拉面板，收纳次要入口，顶部保持简洁，路径清晰不占空间。',
         fits:['后台系统','文档站','工具型产品'],
-        prompt:'下拉菜单导航：hover 展开单项下拉列表，支持分组与更多入口。', html:
+        prompt:'下拉菜单：hover 展开单项下拉列表，支持分组与更多入口。', html:
         `<nav class="snav drop"><div class="s-logo">S</div><div class="s-brand">SueKit</div><div class="s-links"><span class="s-item active">首页</span><span class="s-item dd-trigger open" style="background:var(--card2);border-radius:8px;padding:6px 20px">组件<svg class="arr" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 4.6h8l-3.97 4.8z" fill="currentColor"/></svg><div class="dd-panel"><b>组件</b><span>导航</span><span>表单</span><span>数据</span></div></span><span class="s-item">文档</span><span class="s-item">更新</span></div><div class="s-search"><i class="s-ico"></i><span>在此输入你想搜索的内容</span></div></nav>`}
     ]
   },
   'hero':{
-    name:'Hero 首屏', en:'Hero / Landing',
+    name:'Hero 首屏', en:'Hero Section',
     styleTitle:'Hero 区样式',
     variants:[
       {id:'split', name:'左右布局',
@@ -376,7 +376,7 @@ const COMPS = {
     name:'常见问题', en:'FAQ',
     styleTitle:'常见问题样式',
     variants:[
-      {id:'accordion', name:'折叠列表',
+      {id:'accordion', name:'手风琴折叠',
         role:'问答折叠列表，点击展开收起，收纳高频疑问，降低咨询成本。',
         fits:['产品官网','SaaS 官网','帮助中心'],
         prompt:'常见问题：折叠问答列表，点击展开收起箭头旋转，回答展开显示。', html:
@@ -465,7 +465,7 @@ function renderPage(){
   pageEl.classList.toggle('pad-bottom', hasBar);
   const vp = $('demoViewport');
   vp.scrollTop = 0;
-  // 滚动收缩变色：初始透明，上滑后导航背景变白
+  // 滚动吸顶变色：初始透明，上滑后导航背景变白
   syncScrollbar();
   vp.onscroll = ()=>{
     const nav = document.querySelector('.snav.shrink');
@@ -571,7 +571,7 @@ function renderVariantBar(){
 
 function renderAll(){ renderPage(); renderDetail(); renderVariantBar(); syncMarquee(); bindDropdown(); }
 
-// 下拉导航：点击切换展开（锁定显示，不因移开鼠标消失），hover 仍可展开；点击外部收起
+// 下拉菜单：点击切换展开（锁定显示，不因移开鼠标消失），hover 仍可展开；点击外部收起
 function bindDropdown(){
   const trig = document.querySelector('.snav.drop .dd-trigger');
   if(!trig) return;
