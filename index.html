@@ -167,7 +167,7 @@ body{display:flex;align-items:flex-start;justify-content:center}
 .hd-c3{position:absolute;left:856.5px;top:150.7px;width:263px;height:479.5px;background:var(--muted);border-radius:20px;transform:rotate(-15deg)}
 
 /* ============ demo 页面：按钮 ============ */
-.btn-show{position:relative;height:176px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.btn-show{position:relative;height:176px;background:var(--bg);display:flex;align-items:center;justify-content:center;gap:15px}
 .dbtn{height:40px;padding:0 20px;border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:filter .15s,background-color .15s}
 .dbtn:hover{filter:brightness(.95)}
 .dbtn-solid{background:var(--accent2);color:#fff}
@@ -424,28 +424,28 @@ const COMPS = {
       {id:'solid', name:'实底按钮',
         role:'实心主按钮：品牌红底白字，页面最高优先级的行动入口。',
         fits:['产品官网','落地页','后台系统'],
-        prompt:'按钮：实心主按钮，品牌红(#C9694C)底白字，12px 圆角，高 40px，14px semibold，hover 微加深。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-solid">开始使用</div></div>`},
+        prompt:'按钮：一对并排实底主按钮（浏览组件/查看Prompt），品牌红(#C9694C)底白字，12px 圆角，高 40px，14px semibold，hover 微加深。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-solid">浏览组件</div><div class="dbtn dbtn-solid">查看Prompt</div></div>`},
       {id:'line', name:'线框按钮',
         role:'线框次按钮：白底细灰描边，与主按钮配对的次级操作。',
         fits:['产品官网','后台系统','工具型产品'],
-        prompt:'按钮：线框次按钮，白底 1px 灰描边 12px 圆角，品牌红文字，高 40px，与主按钮配对使用。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-line">了解更多</div></div>`},
+        prompt:'按钮：一对并排线框按钮（浏览组件/查看Prompt），白底 1px 灰描边 12px 圆角，品牌红文字，高 40px。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-line">浏览组件</div><div class="dbtn dbtn-line">查看Prompt</div></div>`},
       {id:'text', name:'文字按钮',
         role:'文字按钮：无底无框纯文字，轻量操作与行内引导，hover 浅红底。',
         fits:['后台系统','文档站','工具型产品'],
-        prompt:'按钮：文字按钮，透明底品牌红文字，hover 浅红圆角底，高 40px，轻量级操作入口。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-text">查看文档</div></div>`},
+        prompt:'按钮：一对并排文字按钮（浏览组件/查看Prompt），透明底品牌红文字，hover 浅红圆角底，高 40px。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-text">浏览组件</div><div class="dbtn dbtn-text">查看Prompt</div></div>`},
       {id:'pill', name:'胶囊按钮',
         role:'胶囊按钮：全圆角红底，下载/注册等强调型动作，视觉更亲和。',
         fits:['活动页','移动端风格站','落地页'],
-        prompt:'按钮：胶囊按钮，全圆角(999px)品牌红底白字，高 40px 横向 padding 26px，强调型 CTA。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-pill">立即下载</div></div>`},
+        prompt:'按钮：一对并排胶囊按钮（浏览组件/查看Prompt），全圆角(999px)品牌红底白字，高 40px 横向 padding 26px。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-pill">浏览组件</div><div class="dbtn dbtn-pill">查看Prompt</div></div>`},
       {id:'icon', name:'图标按钮',
-        role:'图标按钮：方形纯图标钮，搜索/关闭/更多等工具型操作，省空间。',
+        role:'图标按钮：方形纯图标钮，搜索/浏览/打开等工具型操作，省空间。',
         fits:['后台系统','工具型产品','文档站'],
-        prompt:'按钮：40×40 方形图标按钮，品牌红底白色放大镜 SVG 图标 12px 圆角，hover 微加深。', html:
-        `<div class="btn-show"><div class="dbtn dbtn-icon" aria-label="搜索"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12.7 12.7L17 17" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div></div>`}
+        prompt:'按钮：一对并排方形图标按钮（浏览=放大镜/查看Prompt=外部链接），品牌红底白色 SVG 描边图标，40×40，12px 圆角，hover 微加深。', html:
+        `<div class="btn-show"><div class="dbtn dbtn-icon" aria-label="浏览组件"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12.7 12.7L17 17" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="dbtn dbtn-icon" aria-label="查看Prompt"><svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M13 3.5h3.5V7"/><path d="M11.5 8.5L16.5 3.5"/><path d="M12.5 11v3a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3"/></svg></div></div>`}
     ]
   }
 };
